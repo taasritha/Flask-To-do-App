@@ -41,7 +41,12 @@ def toggle_task(task_id):
 def delete_task(task_id):
     global tasks
     tasks = [task for task in tasks if task['id'] != task_id]
-    return
+    return jsonify({'result': 'Task deleted'})
+
+    
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
+
+
+
