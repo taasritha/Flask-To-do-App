@@ -1,4 +1,4 @@
-name: Flask App CI/CD without Docker
+name: Flask App CI/CD (No Docker)
 
 on:
   push:
@@ -15,15 +15,18 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: 3.9
 
       - name: Install dependencies
-        run: pip install flask
+        run: pip install -r requirements.txt
 
       - name: Run Flask app in background
         run: |
           nohup python app.py > flask.log 2>&1 &
           sleep 10
 
-      - name: Ping the Flask app
+      - name: Print Flask logs
+        run: cat flask.log
+
+      - name: Ping Flask app
         run: curl http://127.0.0.1:5000
