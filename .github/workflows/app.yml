@@ -1,4 +1,4 @@
-name: Flask App with Docker
+name: Flask App CI/CD with Docker
 
 on:
   push:
@@ -7,18 +7,22 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  build-and-run:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Docker Buildx
+      - name: Set up Docker
         uses: docker/setup-buildx-action@v3
 
       - name: Build Docker image
         run: docker build -t flask-to-do-app .
 
-      - name: Run container (optional)
-        run: docker run -d -p 5000:5000 flask-to-do-app
+      - name: Run Flask app inside container
+        run: |
+          docker run -d -p 5000:5000 --name flask_container flask-to-do-app
+
+      - name: Run Flask app
+        run: curl http://localhost:5000
